@@ -16,6 +16,22 @@ const vazirmatn = localFont({
   preload: true,
 });
 
+/**
+ * Estedad sets the headlines. A second face is what separates a designed page
+ * from a templated one — its counters and terminals carry more character than a
+ * UI face, and reserving it for display sizes keeps the payload to two small
+ * subset files rather than a whole second family.
+ */
+const estedad = localFont({
+  src: [
+    { path: "../styles/fonts/Estedad-700.woff2", weight: "700", style: "normal" },
+    { path: "../styles/fonts/Estedad-800.woff2", weight: "800", style: "normal" },
+  ],
+  variable: "--font-estedad",
+  display: "swap",
+  preload: true,
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://manjaniq.com"),
   title: {
@@ -44,7 +60,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fa" dir="rtl" className={vazirmatn.variable} suppressHydrationWarning>
+    <html lang="fa" dir="rtl" className={`${vazirmatn.variable} ${estedad.variable}`} suppressHydrationWarning>
       <body>
         <a href="#main" className="skip-link rounded-md bg-brand px-4 py-2 text-on-brand">
           رفتن به محتوای اصلی

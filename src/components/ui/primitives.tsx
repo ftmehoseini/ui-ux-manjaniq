@@ -30,7 +30,7 @@ export function Card({
     <div
       {...rest}
       className={cn(
-        "rounded-xl border border-line bg-surface",
+        "rounded-lg border border-line bg-surface",
         CARD_PADDING[padding],
         interactive &&
           "transition-shadow duration-200 hover:shadow-md focus-within:shadow-md motion-reduce:transition-none",

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import * as React from "react";
-import { Section } from "@/components/marketing/shell";
+import { Container, Section, TrajectoryArc } from "@/components/marketing/shell";
 import { Card } from "@/components/ui/primitives";
 
 export const metadata: Metadata = {
@@ -34,15 +34,17 @@ const SECTIONS = [
 export default function PrivacyPage() {
   return (
     <>
-      <Section className="pt-14">
-        <div className="max-w-prose">
-          <h1 className="t-display text-ink">حریم خصوصی و داده‌ها</h1>
-          <p className="t-body-lg mt-5 text-muted">
+      <section className="grain relative overflow-hidden pt-14 pb-16 sm:pt-20">
+        <TrajectoryArc className="pointer-events-none absolute -top-4 left-0 h-64 w-[70%] text-brand/12" />
+        <Container className="relative">
+          <p className="t-overline text-accent">حریم خصوصی</p>
+          <h1 className="t-display mt-5 max-w-3xl text-ink">حریم خصوصی و داده‌ها</h1>
+          <p className="t-lead mt-6 max-w-2xl text-muted">
             منجنیق بر پایهٔ اطلاعاتی کار می‌کند که خودت وارد می‌کنی. این صفحه می‌گوید آن اطلاعات
             کجا می‌رود و چه کسی می‌بیند.
           </p>
-        </div>
-      </Section>
+        </Container>
+      </section>
 
       <Section tone="muted">
         <ul className="flex max-w-prose flex-col gap-4">

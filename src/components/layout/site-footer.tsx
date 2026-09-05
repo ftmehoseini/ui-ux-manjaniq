@@ -30,8 +30,8 @@ const COLUMNS = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-surface-muted/40">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <footer className="grain relative border-t border-rule bg-surface-muted/60">
+      <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8">
         <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
           <div className="max-w-sm">
             <Logo className="min-h-6" />
@@ -44,7 +44,7 @@ export function SiteFooter() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {COLUMNS.map((column) => (
               <nav key={column.title} aria-label={column.title}>
-                <h2 className="t-label mb-3 text-ink">{column.title}</h2>
+                <h2 className="mb-4 font-[family-name:var(--font-display)] text-base font-bold text-ink">{column.title}</h2>
                 <ul className="flex flex-col gap-2">
                   {column.links.map((link) => (
                     <li key={link.href}>
@@ -62,7 +62,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <p className="t-caption mt-10 border-t border-line pt-6 text-faint">
+        <p className="t-caption mt-14 border-t border-rule pt-6 text-faint">
           © منجنیق — تمام حقوق محفوظ است.
         </p>
       </div>

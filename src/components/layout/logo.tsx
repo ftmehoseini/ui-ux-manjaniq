@@ -46,7 +46,7 @@ export function Logo({
     <span className={cn("inline-flex items-center gap-2 text-brand", className)}>
       <LogoMark />
       {showWordmark && (
-        <span className="text-lg font-bold tracking-tight text-ink">منجنیق</span>
+        <span className="font-[family-name:var(--font-display)] text-xl font-extrabold text-ink">منجنیق</span>
       )}
     </span>
   );

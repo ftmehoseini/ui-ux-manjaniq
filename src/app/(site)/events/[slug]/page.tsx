@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import * as React from "react";
 import { notFound } from "next/navigation";
-import { CalendarDays, MapPin, ShieldCheck, Users } from "lucide-react";
 import { getApi } from "@/lib/api";
 import { faDateRange, faDigits, faPercent, faPrice } from "@/lib/format";
 import type { EventDetail } from "@/lib/types";
-import { Container, Section } from "@/components/marketing/shell";
-import { Badge, Card, SectionHeader } from "@/components/ui/primitives";
-import { ButtonLink } from "@/components/ui/button";
+import {
+  Container,
+  EditorialHead,
+  PhotoFrame,
+  Section,
+  TrajectoryArc,
+} from "@/components/marketing/shell";
 import { EventRegistrationCta } from "@/components/marketing/event-cta";
+import { ButtonLink } from "@/components/ui/button";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -41,156 +45,173 @@ export default async function EventDetailPage({ params }: PageProps) {
   return (
     <>
       {/* Trust before commitment: the evidence sits above the purchase, and the
-          price is stated plainly rather than being revealed at checkout. */}
-      <Section className="pt-14">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-12">
-          <div>
-            <Badge tone="brand">{event.city}</Badge>
-            <h1 className="t-display mt-3 text-ink">{event.title}</h1>
-            <p className="t-body-lg mt-4 max-w-prose text-muted">{event.tagline}</p>
+          price is stated plainly rather than revealed at checkout. */}
+      <section className="grain relative overflow-hidden pt-12 pb-16 sm:pt-16 sm:pb-20">
+        <TrajectoryArc className="pointer-events-none absolute -top-4 left-0 h-64 w-[70%] text-brand/12" />
+        <Container className="relative">
+          <p className="t-overline text-accent">رویداد منجنیق — {event.city}</p>
+          <h1 className="t-display mt-5 max-w-4xl text-ink">{event.title}</h1>
+          <p className="t-lead mt-6 max-w-2xl text-muted">{event.tagline}</p>
 
-            <dl className="mt-8 flex flex-col gap-3">
-              <Fact icon={<CalendarDays className="size-4" aria-hidden />} label="زمان">
-                {faDateRange(event.startsAt, event.endsAt)}
-              </Fact>
-              <Fact icon={<MapPin className="size-4" aria-hidden />} label="مکان">
-                {event.venue}
-              </Fact>
-              <Fact icon={<Users className="size-4" aria-hidden />} label="ظرفیت">
-                {faDigits(event.capacity)} شرکت‌کنندهٔ انتخاب‌شده
-              </Fact>
-            </dl>
-          </div>
+          <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-14">
+            <div className="lg:col-span-7">
+              <PhotoFrame ratio="16 / 9" placeholder="جای عکس واقعی از دورهٔ قبلی رویداد" />
+              <dl className="mt-8">
+                <Row label="زمان">{faDateRange(event.startsAt, event.endsAt)}</Row>
+                <Row label="مکان">{event.venue}</Row>
+                <Row label="ظرفیت">{faDigits(event.capacity)} شرکت‌کنندهٔ انتخاب‌شده</Row>
+              </dl>
+            </div>
 
-          <div className="lg:sticky lg:top-24 lg:self-start">
-            <EventRegistrationCta
-              slug={event.slug}
-              state={event.state}
-              priceLabel={event.priceIrr === null ? null : faPrice(event.priceIrr)}
-              registrationUrl={event.registrationUrl}
-            />
+            <div className="lg:col-span-5">
+              <div className="lg:sticky lg:top-28">
+                <EventRegistrationCta
+                  slug={event.slug}
+                  state={event.state}
+                  priceLabel={event.priceIrr === null ? null : faPrice(event.priceIrr)}
+                  registrationUrl={event.registrationUrl}
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        </Container>
+      </section>
+
+      <Section tone="surface" labelledBy="about-heading">
+        <EditorialHead
+          index={1}
+          label="فرمت"
+          id="about-heading"
+          title="این رویداد چطور می‌گذرد"
+          lead={event.about}
+        />
+        <ol className="mt-12">
+          {event.format.map((item, index) => (
+            <li key={item.title} className="rule-t grid gap-3 py-7 sm:grid-cols-12 sm:gap-8 last:rule-b">
+              <span
+                aria-hidden
+                className="font-[family-name:var(--font-display)] text-sm font-bold text-accent sm:col-span-1"
+              >
+                {faDigits(`0${index + 1}`)}
+              </span>
+              <h3 className="font-[family-name:var(--font-display)] text-xl font-bold text-ink sm:col-span-4">
+                {item.title}
+              </h3>
+              <p className="t-body-lg text-muted sm:col-span-7">{item.detail}</p>
+            </li>
+          ))}
+        </ol>
       </Section>
 
-      <Section tone="muted" labelledBy="about-heading">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <h2 id="about-heading" className="t-h1 text-ink">
-              این رویداد چطور می‌گذرد
+      {/* Participant quality as aggregate composition. Never a named list —
+          that would expose profiles the members did not make public. */}
+      <Section labelledBy="composition-heading">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <p className="t-overline text-accent">۰۲ — ترکیب اتاق</p>
+            <h2 id="composition-heading" className="t-h1 mt-4 text-ink">
+              چه کسانی در این رویداد هستند
             </h2>
-            <p className="t-body-lg mt-4 text-muted">{event.about}</p>
+            <p className="t-body mt-5 text-muted">
+              ترکیب کلی شرکت‌کننده‌ها را منتشر می‌کنیم، نه فهرست اسامی. پروفایل هیچ عضوی بدون
+              اجازهٔ خودش نمایش داده نمی‌شود.
+            </p>
           </div>
-          <ul className="flex flex-col gap-3">
-            {event.format.map((item) => (
-              <li key={item.title}>
-                <Card>
-                  <h3 className="t-h3 text-ink">{item.title}</h3>
-                  <p className="t-small mt-1 text-muted">{item.detail}</p>
-                </Card>
+
+          <ul className="lg:col-span-7 lg:pt-10">
+            {event.composition.map((slice) => (
+              <li key={slice.label} className="rule-t py-5 last:rule-b">
+                <div className="flex items-baseline justify-between gap-4">
+                  <span className="font-[family-name:var(--font-display)] text-lg font-bold text-ink">
+                    {slice.label}
+                  </span>
+                  <span className="font-[family-name:var(--font-display)] text-lg font-bold text-accent">
+                    {faPercent(slice.share)}
+                  </span>
+                </div>
+                <div className="mt-3 h-1 bg-surface-muted">
+                  <div className="h-full bg-brand" style={{ inlineSize: `${slice.share}%` }} />
+                </div>
               </li>
             ))}
           </ul>
         </div>
       </Section>
 
-      {/* Participant quality, shown as aggregate composition. Never a named
-          list — that would expose profiles the members did not make public. */}
-      <Section labelledBy="composition-heading">
-        <SectionHeader
-          overline="ترکیب اتاق"
-          title="چه کسانی در این رویداد هستند"
-          description="ترکیب کلی شرکت‌کننده‌ها را منتشر می‌کنیم، نه فهرست اسامی. پروفایل هیچ عضوی بدون اجازهٔ خودش نمایش داده نمی‌شود."
-        />
-        <ul className="mt-8 flex flex-col gap-4">
-          {event.composition.map((slice) => (
-            <li key={slice.label} className="flex flex-col gap-1.5">
-              <div className="flex items-baseline justify-between gap-4">
-                <span className="t-small text-ink">{slice.label}</span>
-                <span className="t-small font-semibold text-muted">{faPercent(slice.share)}</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-surface-muted">
-                <div className="h-full rounded-full bg-brand" style={{ inlineSize: `${slice.share}%` }} />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section tone="muted" labelledBy="selection-heading">
-        <SectionHeader
-          overline="انتخاب"
+      <Section tone="deep" labelledBy="selection-heading">
+        <EditorialHead
+          index={3}
+          label="انتخاب"
+          id="selection-heading"
           title="چطور انتخاب می‌کنیم چه کسی بیاید"
-          description="ثبت‌نام به‌تنهایی به معنی حضور نیست. هر درخواست پیش از تأیید بررسی می‌شود."
+          lead="ثبت‌نام به‌تنهایی به معنی حضور نیست. هر درخواست پیش از تأیید بررسی می‌شود."
+          tone="deep"
         />
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {event.selection.map((criterion) => (
-            <li key={criterion.title}>
-              <Card className="h-full">
-                <ShieldCheck className="size-5 text-brand" aria-hidden />
-                <h3 className="t-h3 mt-3 text-ink">{criterion.title}</h3>
-                <p className="t-small mt-1.5 text-muted">{criterion.detail}</p>
-              </Card>
+        <ul className="mt-12 grid gap-px bg-white/15 sm:grid-cols-3">
+          {event.selection.map((criterion, index) => (
+            <li key={criterion.title} className="bg-deep p-6">
+              <span
+                aria-hidden
+                className="font-[family-name:var(--font-display)] text-sm font-bold text-accent-on-deep"
+              >
+                {faDigits(`0${index + 1}`)}
+              </span>
+              <h3 className="mt-3 font-[family-name:var(--font-display)] text-xl font-bold text-on-deep">
+                {criterion.title}
+              </h3>
+              <p className="t-small mt-2 text-on-deep-muted">{criterion.detail}</p>
             </li>
           ))}
         </ul>
       </Section>
 
-      <Section labelledBy="agenda-heading">
-        <SectionHeader overline="برنامه" title="برنامهٔ روز رویداد" />
-        <ol className="mt-8 max-w-2xl">
-          {event.agenda.map((item) => (
-            <li key={`${item.time}-${item.title}`} className="flex gap-4 border-b border-line py-4 last:border-0">
-              <span className="t-label w-16 shrink-0 text-muted">{item.time}</span>
-              <div className="min-w-0">
-                <h3 className="t-label text-ink">{item.title}</h3>
-                {item.detail && <p className="t-caption mt-0.5 text-muted">{item.detail}</p>}
-              </div>
-            </li>
-          ))}
-        </ol>
+      <Section tone="muted" labelledBy="agenda-heading">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-4">
+            <p className="t-overline text-accent">۰۴ — برنامه</p>
+            <h2 id="agenda-heading" className="t-h1 mt-4 text-ink">
+              برنامهٔ روز رویداد
+            </h2>
+          </div>
+          <ol className="lg:col-span-8">
+            {event.agenda.map((item) => (
+              <li key={`${item.time}-${item.title}`} className="rule-t flex gap-6 py-5 last:rule-b">
+                <span className="font-[family-name:var(--font-display)] w-16 shrink-0 text-base font-bold text-accent">
+                  {item.time}
+                </span>
+                <div className="min-w-0">
+                  <h3 className="font-[family-name:var(--font-display)] text-lg font-bold text-ink">
+                    {item.title}
+                  </h3>
+                  {item.detail && <p className="t-small mt-1 text-muted">{item.detail}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </Section>
 
-      <section className="bg-brand py-14 text-on-brand">
-        <Container>
-          <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="t-h2">پیش از ثبت‌نام، پروفایلت را بساز</h2>
-              <p className="t-body mt-2 opacity-90">
-                چیدمان میزها از روی نیازهای ثبت‌شده انجام می‌شود؛ پروفایل ناقص یعنی میز نامناسب.
-              </p>
-            </div>
-            <ButtonLink
-              href="/app/onboarding"
-              size="lg"
-              variant="inverse"
-              className="shrink-0"
-            >
-              ساخت پروفایل
-            </ButtonLink>
-          </div>
-        </Container>
-      </section>
+      <Section tone="brand" size="tall" className="overflow-hidden">
+        <TrajectoryArc className="pointer-events-none absolute inset-x-0 bottom-0 h-48 w-full text-white/10" />
+        <div className="relative max-w-2xl">
+          <h2 className="t-h1">پیش از ثبت‌نام، پروفایلت را بساز</h2>
+          <p className="t-lead mt-5 opacity-90">
+            چیدمان میزها از روی نیازهای ثبت‌شده انجام می‌شود؛ پروفایل ناقص یعنی میز نامناسب.
+          </p>
+          <ButtonLink href="/app/onboarding" size="lg" variant="inverse" className="mt-8">
+            ساخت پروفایل
+          </ButtonLink>
+        </div>
+      </Section>
     </>
   );
 }
 
-function Fact({
-  icon,
-  label,
-  children,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  children: React.ReactNode;
-}) {
+function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-start gap-3">
-      <span className="mt-1 shrink-0 text-faint">{icon}</span>
-      <div>
-        <dt className="t-caption text-faint">{label}</dt>
-        <dd className="t-body text-ink">{children}</dd>
-      </div>
+    <div className="rule-t grid grid-cols-3 gap-4 py-3.5 last:rule-b sm:grid-cols-4">
+      <dt className="t-caption text-faint">{label}</dt>
+      <dd className="t-small col-span-2 text-ink sm:col-span-3">{children}</dd>
     </div>
   );
 }

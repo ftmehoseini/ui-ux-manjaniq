@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import * as React from "react";
 import { getApi } from "@/lib/api";
-import { Section } from "@/components/marketing/shell";
-import { SectionHeader } from "@/components/ui/primitives";
+import { Container, EditorialHead, Section, TrajectoryArc } from "@/components/marketing/shell";
+
 import { EmptyState, ErrorState } from "@/components/ui/states";
 import { ButtonLink } from "@/components/ui/button";
 import { EventCard } from "@/components/domain/event-card";
@@ -29,19 +29,21 @@ export default async function EventsPage() {
 
   return (
     <>
-      <Section className="pt-14">
-        <div className="max-w-3xl">
-          <h1 className="t-display text-ink">رویدادها</h1>
-          <p className="t-body-lg mt-5 text-muted">
+      <section className="grain relative overflow-hidden pt-14 pb-16 sm:pt-20">
+        <TrajectoryArc className="pointer-events-none absolute -top-4 left-0 h-64 w-[70%] text-brand/12" />
+        <Container className="relative">
+          <p className="t-overline text-accent">رویدادها</p>
+          <h1 className="t-display mt-5 text-ink">اتاق‌های انتخاب‌شده</h1>
+          <p className="t-lead mt-6 max-w-2xl text-muted">
             هر رویداد منجنیق یک اتاق انتخاب‌شده است. چیدمان میزها از روی نیاز و توانمندی
             ثبت‌شدهٔ شرکت‌کننده‌ها انجام می‌شود، نه به‌صورت تصادفی.
           </p>
-        </div>
-      </Section>
+        </Container>
+      </section>
 
       <Section tone="muted" labelledBy="upcoming-heading">
-        <SectionHeader overline="پیش رو" title="رویدادهای آینده" />
-        <div className="mt-8">
+        <EditorialHead index={1} label="پیش رو" title="رویدادهای آینده" />
+        <div className="mt-12">
           {failed ? (
             <ErrorState description="فهرست رویدادها بارگذاری نشد. چند لحظه بعد دوباره تلاش کن." />
           ) : upcoming.length === 0 ? (
@@ -51,7 +53,7 @@ export default async function EventsPage() {
               action={<ButtonLink href="/app/onboarding">ساخت پروفایل</ButtonLink>}
             />
           ) : (
-            <ul className="grid gap-4 sm:grid-cols-2">
+            <ul className="grid gap-6 sm:grid-cols-2">
               {upcoming.map((event) => (
                 <li key={event.id}>
                   <EventCard event={event} />
@@ -64,8 +66,8 @@ export default async function EventsPage() {
 
       {past.length > 0 && (
         <Section labelledBy="past-heading">
-          <SectionHeader overline="گذشته" title="رویدادهای برگزارشده" />
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+          <EditorialHead index={2} label="گذشته" title="رویدادهای برگزارشده" />
+          <ul className="mt-12 grid gap-6 sm:grid-cols-2">
             {past.map((event) => (
               <li key={event.id}>
                 <EventCard event={event} />

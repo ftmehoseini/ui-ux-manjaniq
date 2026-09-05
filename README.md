@@ -38,9 +38,53 @@ knowing before reading the code:
 ## Stack
 
 Next.js 15 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 ·
-Vazirmatn (SIL OFL, self-hosted) · lucide-react.
+Estedad + Vazirmatn (both SIL OFL, self-hosted) · lucide-react.
 
 `noUncheckedIndexedAccess` is on and `any` is an ESLint error.
+
+---
+
+## Art direction
+
+The reference is a well-made printed programme or a private members' journal —
+not a SaaS dashboard. The first pass of this site was a correct design system
+that had not been art-directed: every band was the same height, every block was
+a bordered white card in a symmetric grid, and it read as generated. What
+changed:
+
+**Two typefaces.** Estedad sets headlines, Vazirmatn sets everything read at
+length. A second face with more character in its counters and terminals is most
+of the difference between a designed page and a templated one, and restricting
+it to display sizes keeps the cost to two small files.
+
+**No letter-spacing, anywhere.** Persian is a connected script and tracking
+pulls the joins apart. All the editorial contrast comes from scale, weight and
+leading instead — which is why the display sizes are genuinely large rather
+than politely large.
+
+**Uneven vertical rhythm.** `Section` takes `tight` / `normal` / `tall`. A page
+where every band is the same height reads as machine output.
+
+**Grounds, not cards.** Sections alternate warm paper, surface, muted, a
+full-bleed deep ink band for the one beat that should land hard, and brand.
+Lists sit on hairline rules (`rule-t` / `rule-b`) rather than inside boxes;
+where a grid is right, it is a one-pixel gap over a rule colour, not a row of
+floating cards.
+
+**A repeating graphic signature.** `TrajectoryArc` — منجنیق is a catapult — sits
+behind the mastheads and closes the page, drawing itself once on arrival. One
+ownable device is most of the difference between a brand and a theme.
+
+**Paper grain.** A tiny SVG turbulence overlay (`.grain`), hidden from
+assistive tech and from print.
+
+**Numbered sections.** Oversized ghosted numerals set in the margin, the way a
+printed article marks its parts.
+
+**Honest image plates.** No photography was supplied. Rather than a grey box —
+or, worse, stock photos of a "networking event" that never happened —
+`PhotoFrame` renders an empty slot as a composed plate with a caption naming
+what belongs there, and takes a real `src` with no layout change.
 
 ---
 

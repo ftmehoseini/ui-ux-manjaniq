@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import * as React from "react";
-import { Section } from "@/components/marketing/shell";
+import { Container, Section, TrajectoryArc } from "@/components/marketing/shell";
 import { Card, SectionHeader } from "@/components/ui/primitives";
 import { ButtonLink } from "@/components/ui/button";
 
@@ -35,16 +35,18 @@ const PRINCIPLES = [
 export default function AboutPage() {
   return (
     <>
-      <Section className="pt-14">
-        <div className="max-w-3xl">
-          <h1 className="t-display text-ink">دربارهٔ منجنیق</h1>
-          <p className="t-body-lg mt-5 text-muted">
+      <section className="grain relative overflow-hidden pt-14 pb-16 sm:pt-20">
+        <TrajectoryArc className="pointer-events-none absolute -top-4 left-0 h-64 w-[70%] text-brand/12" />
+        <Container className="relative">
+          <p className="t-overline text-accent">دربارهٔ ما</p>
+          <h1 className="t-display mt-5 max-w-3xl text-ink">دربارهٔ منجنیق</h1>
+          <p className="t-lead mt-6 max-w-2xl text-muted">
             منجنیق برای یک مسئلهٔ مشخص ساخته شده است: آدم‌ها در رویدادهای حرفه‌ای با افراد زیادی
             آشنا می‌شوند و بعد هیچ اتفاقی نمی‌افتد. ما می‌خواهیم آشنایی تصادفی جای خودش را به
             معرفی‌های مرتبط و هدفمند بدهد.
           </p>
-        </div>
-      </Section>
+        </Container>
+      </section>
 
       <Section tone="muted" labelledBy="principles-heading">
         <SectionHeader overline="اصول" title="بر چه اساسی کار می‌کنیم" />
