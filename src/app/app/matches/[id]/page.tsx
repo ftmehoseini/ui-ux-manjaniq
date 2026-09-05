@@ -34,7 +34,7 @@ export default async function MatchDetailPage({ params }: PageProps) {
     <AppPage>
       <Link
         href="/app/matches"
-        className="t-label inline-flex items-center gap-1.5 rounded text-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+        className="t-label inline-flex min-h-11 items-center gap-1.5 rounded text-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
       >
         <ArrowRight className="size-4" aria-hidden />
         بازگشت به پیشنهادها
@@ -45,7 +45,7 @@ export default async function MatchDetailPage({ params }: PageProps) {
           uncertain, and only then the action. */}
       <article className="mt-6 flex flex-col gap-6">
         <header className="flex flex-wrap items-start justify-between gap-4">
-          <PersonHeader person={match.person} size="lg" className="min-w-0 flex-1" />
+          <PersonHeader person={match.person} size="lg" as="h1" className="min-w-0 flex-1" />
           <div className="flex flex-col items-end gap-1.5">
             {match.status === "new" && <Badge tone="brand">تازه</Badge>}
             <span className="t-caption text-faint">{faRelative(match.createdAt)}</span>

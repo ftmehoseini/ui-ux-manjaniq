@@ -108,7 +108,7 @@ export function AppShell({
           <div className="px-5 py-5">
             <Link
               href="/app"
-              className="rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+              className="inline-flex min-h-11 items-center rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
             >
               <Logo />
             </Link>

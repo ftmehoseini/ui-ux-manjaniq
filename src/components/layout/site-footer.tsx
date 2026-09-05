@@ -34,7 +34,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
           <div className="max-w-sm">
-            <Logo />
+            <Logo className="min-h-6" />
             <p className="t-small mt-3 text-muted">
               منجنیق آدم‌های مرتبط را در زمان درست به هم می‌رساند تا از یک گفت‌وگو، یک فرصت
               واقعی دربیاید.
@@ -50,7 +50,7 @@ export function SiteFooter() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="t-small rounded text-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                        className="t-small inline-flex min-h-6 min-w-6 items-center rounded text-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
                       >
                         {link.label}
                       </Link>

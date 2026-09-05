@@ -41,7 +41,7 @@ export function RelevanceDisclosure({
         type="button"
         onClick={toggle}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-2 text-start focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+        className="flex min-h-6 w-full items-center justify-between gap-2 text-start focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
       >
         <span className="t-caption text-muted">
           هم‌خوانی این پیشنهاد با نیازهای تو:{" "}

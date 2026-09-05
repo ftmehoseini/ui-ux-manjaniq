@@ -92,7 +92,7 @@ export default async function AppHomePage() {
               action={
                 <Link
                   href="/app/matches"
-                  className="t-label inline-flex items-center gap-1 rounded text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                  className="t-label inline-flex min-h-6 items-center gap-1 rounded text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
                 >
                   همهٔ پیشنهادها
                   <ArrowLeft className="size-4" aria-hidden />

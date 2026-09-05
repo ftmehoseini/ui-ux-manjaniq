@@ -28,7 +28,10 @@
   /* --- Text ----------------------------------------------------------- */
   --mj-text-primary: #15181c;
   --mj-text-secondary: #5b6472;
-  --mj-text-tertiary: #838d99;
+  /* Verified >= 4.5:1 against background, surface and surface-muted. The
+     previous value sat at 3.2-3.4:1 — the exact "tiny grey Persian text"
+     this system is meant to avoid. */
+  --mj-text-tertiary: #646d79;
   --mj-text-on-brand: #ffffff;
 
   /* --- Lines ---------------------------------------------------------- */

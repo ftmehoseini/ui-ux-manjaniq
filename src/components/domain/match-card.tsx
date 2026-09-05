@@ -44,7 +44,7 @@ export function MatchCard({ match, onRequestIntroduction, className }: MatchCard
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div id={`match-${match.id}-name`} className="min-w-0 flex-1">
-          <PersonHeader person={match.person} />
+          <PersonHeader person={match.person} as="h2" />
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1.5">
           {match.status === "new" && <Badge tone="brand">تازه</Badge>}
@@ -54,7 +54,7 @@ export function MatchCard({ match, onRequestIntroduction, className }: MatchCard
       </div>
 
       <section aria-label="چرا این پیشنهاد" className="flex flex-col gap-3">
-        <h4 className="t-label text-ink">چرا این پیشنهاد؟</h4>
+        <h3 className="t-label text-ink">چرا این پیشنهاد؟</h3>
         <WhyThisMatch forYou={match.forYou} forThem={match.forThem} />
       </section>
 

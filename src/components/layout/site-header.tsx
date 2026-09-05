@@ -35,7 +35,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href="/"
-          className="rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+          className="inline-flex min-h-11 items-center rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
           aria-label="منجنیق — صفحهٔ اصلی"
         >
           <Logo />

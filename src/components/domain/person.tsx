@@ -13,10 +13,14 @@ import { Avatar, Badge } from "@/components/ui/primitives";
 export function PersonHeader({
   person,
   size = "md",
+  as: Heading = "h3",
   className,
 }: {
   person: Person;
   size?: "sm" | "md" | "lg";
+  /** The person's name is the heading here, so the level belongs to the page
+   *  that owns the document outline, not to this component. */
+  as?: "h1" | "h2" | "h3";
   className?: string;
 }) {
   const limited = person.visibility === "limited";
@@ -26,14 +30,14 @@ export function PersonHeader({
       <Avatar name={person.name} src={person.avatarUrl} size={size === "lg" ? "lg" : "md"} />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <h3
+          <Heading
             className={cn(
               "font-semibold text-ink",
-              size === "lg" ? "t-h2" : size === "md" ? "t-h3" : "text-sm",
+              size === "lg" ? "t-h1" : size === "md" ? "t-h3" : "text-sm",
             )}
           >
             {person.name}
-          </h3>
+          </Heading>
           {person.verification.identity && (
             <span
               className="inline-flex items-center gap-1 text-[0.6875rem] text-success"
