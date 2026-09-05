@@ -241,7 +241,7 @@ export default async function HomePage() {
               <ButtonLink
                 href="/app/onboarding"
                 size="lg"
-                className="bg-surface text-brand hover:bg-surface-muted"
+                variant="inverse"
               >
                 ساخت پروفایل
               </ButtonLink>

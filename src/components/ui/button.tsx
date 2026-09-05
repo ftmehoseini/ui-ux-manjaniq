@@ -2,7 +2,7 @@ import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "link";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "link" | "inverse";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const BASE =
@@ -19,6 +19,10 @@ const VARIANTS: Record<ButtonVariant, string> = {
   ghost: "bg-transparent text-ink hover:bg-surface-muted",
   danger: "bg-danger text-white hover:opacity-90",
   link: "bg-transparent text-brand underline underline-offset-4 hover:text-brand-hover px-0",
+  // For use on a brand-coloured ground. A variant rather than a colour
+  // override at the call site: utility overrides of another utility depend on
+  // stylesheet order, which silently produced an unreadable button.
+  inverse: "bg-surface text-brand hover:bg-surface-muted shadow-sm",
 };
 
 /** Minimum 44px touch target at `md` and above; `sm` is for dense desktop rows. */
