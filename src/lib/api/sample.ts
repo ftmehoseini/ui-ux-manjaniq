@@ -31,8 +31,9 @@ import type {
  */
 
 const DAY = 86_400_000;
-const iso = (offsetDays: number): string =>
-  new Date(Date.now() + offsetDays * DAY).toISOString();
+const HOUR = 3_600_000;
+const iso = (offsetDays: number, plusHours = 0): string =>
+  new Date(Date.now() + offsetDays * DAY + plusHours * HOUR).toISOString();
 
 function person(
   id: string,
@@ -301,7 +302,7 @@ const SAMPLE_EVENT: EventDetail = {
   title: "رویداد فرصت‌های عملیات",
   tagline: "چهل نفر، انتخاب‌شده بر اساس نیاز و توانمندی، در یک بعدازظهر.",
   startsAt: iso(21),
-  endsAt: iso(21),
+  endsAt: iso(21, 3.5),
   city: "تهران",
   venue: "سالن رویداد — نشانی پس از ثبت‌نام",
   state: "open",
