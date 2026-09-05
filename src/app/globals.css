@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   MANJANIQ DESIGN TOKENS
+   ----------------------------------------------------------------------------
+   PROVISIONAL PALETTE — pending brand sign-off.
+   No brand assets (logo, palette, type spec) were available when this system
+   was built, so these values are a considered proposal, not the brand of
+   record. They are deliberately isolated here: replacing the raw values in
+   :root and [data-theme="dark"] re-themes the entire product without touching
+   a single component.
+
+   Direction: deep evergreen ink + restrained brass. Chosen to read as a
+   private, selective business network rather than an AI product — no neon
+   violet, no glow, no gradient wash.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* --- Surfaces ------------------------------------------------------- */
+  --mj-background: #fbfaf8;
+  --mj-surface: #ffffff;
+  --mj-surface-muted: #f4f2ee;
+  --mj-surface-raised: #ffffff;
+  --mj-overlay: rgb(18 22 20 / 0.44);
+
+  /* --- Text ----------------------------------------------------------- */
+  --mj-text-primary: #15181c;
+  --mj-text-secondary: #5b6472;
+  --mj-text-tertiary: #838d99;
+  --mj-text-on-brand: #ffffff;
+
+  /* --- Lines ---------------------------------------------------------- */
+  --mj-border: #e5e2dc;
+  --mj-border-strong: #cfcbc3;
+
+  /* --- Brand ---------------------------------------------------------- */
+  --mj-brand: #0f4c45;
+  --mj-brand-hover: #0a3a35;
+  --mj-brand-active: #072b27;
+  --mj-brand-subtle: #e8f0ee;
+  --mj-brand-border: #b9d2cd;
+
+  /* --- Accent: reserved for opportunity signals, used sparingly -------- */
+  --mj-accent: #9a6a26;
+  --mj-accent-subtle: #f8f0e4;
+  --mj-accent-border: #e3cda9;
+
+  /* --- Status --------------------------------------------------------- */
+  --mj-success: #1c7a53;
+  --mj-success-subtle: #e6f3ec;
+  --mj-warning: #8f6510;
+  --mj-warning-subtle: #fbf1de;
+  --mj-danger: #a32b23;
+  --mj-danger-subtle: #fbeae8;
+  --mj-info: #1f5f8b;
+  --mj-info-subtle: #e8f1f7;
+
+  /* --- Focus ---------------------------------------------------------- */
+  --mj-focus: #2f6fed;
+
+  /* --- Elevation: low, diffuse. No dramatic drop shadows. -------------- */
+  --mj-shadow-sm: 0 1px 2px rgb(21 24 28 / 0.05);
+  --mj-shadow-md: 0 2px 4px rgb(21 24 28 / 0.05), 0 6px 16px rgb(21 24 28 / 0.06);
+  --mj-shadow-lg: 0 4px 8px rgb(21 24 28 / 0.06), 0 16px 40px rgb(21 24 28 / 0.09);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --mj-background: #0e1113;
+  --mj-surface: #16191c;
+  --mj-surface-muted: #1d2226;
+  --mj-surface-raised: #1d2226;
+  --mj-overlay: rgb(4 6 6 / 0.66);
+
+  --mj-text-primary: #eceff1;
+  --mj-text-secondary: #a3adb8;
+  --mj-text-tertiary: #7c8794;
+  --mj-text-on-brand: #06211e;
+
+  --mj-border: #272d33;
+  --mj-border-strong: #3a424a;
+
+  --mj-brand: #4aa89a;
+  --mj-brand-hover: #5fbcae;
+  --mj-brand-active: #74cec0;
+  --mj-brand-subtle: #122a28;
+  --mj-brand-border: #1f4741;
+
+  --mj-accent: #d0a163;
+  --mj-accent-subtle: #291f12;
+  --mj-accent-border: #4a3a22;
+
+  --mj-success: #4fb083;
+  --mj-success-subtle: #10241b;
+  --mj-warning: #d3a34a;
+  --mj-warning-subtle: #261d0f;
+  --mj-danger: #e0736a;
+  --mj-danger-subtle: #2a1512;
+  --mj-info: #6aa9d4;
+  --mj-info-subtle: #101f28;
+
+  --mj-focus: #6f9dff;
+
+  --mj-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --mj-shadow-md: 0 2px 4px rgb(0 0 0 / 0.34), 0 6px 16px rgb(0 0 0 / 0.4);
+  --mj-shadow-lg: 0 4px 8px rgb(0 0 0 / 0.36), 0 16px 40px rgb(0 0 0 / 0.48);
+}
+
+/* ============================================================================
+   TAILWIND THEME BINDING
+   `inline` keeps utilities pointing at the live CSS variable, so the theme
+   switch above propagates without rebuilding class names.
+   ========================================================================== */
+
+@theme inline {
+  --color-background: var(--mj-background);
+  --color-surface: var(--mj-surface);
+  --color-surface-muted: var(--mj-surface-muted);
+  --color-surface-raised: var(--mj-surface-raised);
+  --color-overlay: var(--mj-overlay);
+
+  --color-ink: var(--mj-text-primary);
+  --color-muted: var(--mj-text-secondary);
+  --color-faint: var(--mj-text-tertiary);
+  --color-on-brand: var(--mj-text-on-brand);
+
+  --color-line: var(--mj-border);
+  --color-line-strong: var(--mj-border-strong);
+
+  --color-brand: var(--mj-brand);
+  --color-brand-hover: var(--mj-brand-hover);
+  --color-brand-active: var(--mj-brand-active);
+  --color-brand-subtle: var(--mj-brand-subtle);
+  --color-brand-border: var(--mj-brand-border);
+
+  --color-accent: var(--mj-accent);
+  --color-accent-subtle: var(--mj-accent-subtle);
+  --color-accent-border: var(--mj-accent-border);
+
+  --color-success: var(--mj-success);
+  --color-success-subtle: var(--mj-success-subtle);
+  --color-warning: var(--mj-warning);
+  --color-warning-subtle: var(--mj-warning-subtle);
+  --color-danger: var(--mj-danger);
+  --color-danger-subtle: var(--mj-danger-subtle);
+  --color-info: var(--mj-info);
+  --color-info-subtle: var(--mj-info-subtle);
+
+  --color-focus: var(--mj-focus);
+
+  --shadow-sm: var(--mj-shadow-sm);
+  --shadow-md: var(--mj-shadow-md);
+  --shadow-lg: var(--mj-shadow-lg);
+
+  --font-sans: var(--font-vazirmatn), ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii: calm, slightly soft. Not pill-shaped, not sharp. */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+
+  /* Content measure tuned for Persian: ~62 characters reads comfortably. */
+  --container-measure: 34rem;
+  --container-prose: 46rem;
+}
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ============================================================================
+   TYPOGRAPHY SCALE
+   Persian needs more leading than Latin at the same size. Body copy sits at
+   1.85–1.9 and nothing in the product uses a gray body font below 0.875rem.
+   ========================================================================== */
+
+@layer components {
+  .t-display {
+    font-size: clamp(2rem, 1.35rem + 2.9vw, 3.25rem);
+    line-height: 1.24;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  .t-h1 {
+    font-size: clamp(1.75rem, 1.35rem + 1.7vw, 2.5rem);
+    line-height: 1.32;
+    font-weight: 700;
+  }
+  .t-h2 {
+    font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+    line-height: 1.4;
+    font-weight: 700;
+  }
+  .t-h3 {
+    font-size: 1.125rem;
+    line-height: 1.55;
+    font-weight: 600;
+  }
+  .t-body-lg {
+    font-size: 1.0625rem;
+    line-height: 1.9;
+    font-weight: 400;
+  }
+  .t-body {
+    font-size: 0.9375rem;
+    line-height: 1.85;
+    font-weight: 400;
+  }
+  .t-small {
+    font-size: 0.875rem;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+  .t-caption {
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+  .t-label {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .t-overline {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--mj-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--mj-background);
+    color: var(--mj-text-primary);
+    font-family: var(--font-vazirmatn), ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Persian numerals are the product convention. Latin-script runs (emails,
+     URLs, company names) opt out with .latin. */
+  .latin {
+    font-feature-settings: normal;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--mj-focus);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Remove the default outline only where a component paints its own ring. */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--mj-focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--mj-brand-subtle);
+    color: var(--mj-text-primary);
+  }
+
+  /* Directional glyphs must mirror in RTL. Applied to any icon that points. */
+  [data-flip-rtl] {
+    transform: scaleX(-1);
+  }
+}
+
+@layer utilities {
+  .skip-link {
+    position: absolute;
+    inset-inline-start: 1rem;
+    top: -3rem;
+    z-index: 100;
+    transition: top 150ms ease;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Fades a scroll rail's trailing edge without hiding interactive content. */
+  .rail-mask {
+    -webkit-mask-image: linear-gradient(to left, transparent 0, #000 2rem);
+    mask-image: linear-gradient(to left, transparent 0, #000 2rem);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+/* ============================================================================
+   MOTION
+   Animation communicates state changes only. Everything here is short,
+   low-travel, and fully disabled under prefers-reduced-motion.
+   ========================================================================== */
+
+@keyframes mj-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes mj-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes mj-sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes mj-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+@layer utilities {
+  .animate-fade-in { animation: mj-fade-in 160ms ease-out both; }
+  .animate-rise { animation: mj-rise 220ms cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+  .animate-sheet-up { animation: mj-sheet-up 260ms cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
