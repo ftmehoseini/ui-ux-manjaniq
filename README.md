@@ -180,8 +180,9 @@ src/
                      ReadinessMeter, SectionHeader
     domain/          MatchCard, WhyThisMatch, ProvenanceMark, OpportunityCard,
                      EventCard, ConnectionCard, NextActionCard, OnboardingFlow
-    registration/    the event registration stage — background, header, banner,
-                     panel (form/loading/error/success), info bar, CTA, fields
+    registration/    the event registration stage — background, masthead, banner,
+                     stage (state machine), panel (form/loading/error/success),
+                     info bar, CTA, fields
     layout/          site header/footer, app shell, logo
     marketing/       homepage sections, FAQ, event CTA, story card
   content/           Persian copy, seed taxonomy, and the empty proof file
@@ -201,13 +202,21 @@ route group (`app/(event)/`) because the marketing shell is not a layout it
 wants.
 
 **Two screens, one component.** The form and the confirmation are two branches
-of `RegistrationPanel`, which holds the only state machine in the flow:
+of `RegistrationPanel`. `RegistrationStage` above it holds the only state
+machine in the flow, which is also why it renders the parts of the stage that
+answer to state — the gold masthead over the banner appears with the
+confirmation, where the card's own heading has become the member's name:
 
 ```
 form → (validation) → form            invalid input never leaves the client
 form → submitting → success           a receipt came back
 form → submitting → error → form      the submission failed; nothing is lost
 ```
+
+The masthead sits at the inline start with the way back opposite it. The
+artwork places it in the left corner; under `dir="rtl"` that is the trailing
+edge, so it is set at the leading one instead — the correction the reference
+asks for rather than a mirrored screenshot.
 
 The green check exists only inside the success branch. There is no prop that
 renders it on a form that has not been submitted, and a failed request renders
