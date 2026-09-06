@@ -1,5 +1,4 @@
 import * as React from "react";
-import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 export interface PrimaryButtonProps
@@ -59,33 +58,5 @@ function Spinner() {
       aria-hidden
       className="size-5 shrink-0 animate-spin rounded-full border-2 border-white/45 border-t-white motion-reduce:animate-none"
     />
-  );
-}
-
-export interface PrimaryButtonLinkProps
-  extends Omit<React.ComponentProps<typeof Link>, "className" | "children"> {
-  trailingIcon?: React.ReactNode;
-  className?: string;
-  children: React.ReactNode;
-}
-
-/**
- * The same treatment for a destination rather than an action.
- *
- * A link, not a button, because it navigates — the confirmation's «بازگشت به
- * خانه» must be openable in a new tab and must not look like another
- * submission to assistive technology.
- */
-export function PrimaryButtonLink({
-  trailingIcon,
-  className,
-  children,
-  ...rest
-}: PrimaryButtonLinkProps) {
-  return (
-    <Link {...rest} className={cn("ev-cta", className)}>
-      <span>{children}</span>
-      {trailingIcon}
-    </Link>
   );
 }

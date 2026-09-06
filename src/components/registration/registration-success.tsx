@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Clock, Ticket } from "lucide-react";
+import { Clock, Ticket } from "lucide-react";
 import { faDigits, faEventTime } from "@/lib/format";
-import { PrimaryButtonLink } from "./primary-button";
 import { SuccessCheck } from "./success-check";
 import type { RegistrationEventView } from "./event-view";
 import type { EventRegistrationReceipt, RegistrationStatus } from "@/lib/types";
@@ -102,21 +101,13 @@ export function RegistrationSuccess({
           <Clock className="mt-1 size-5 shrink-0 text-[var(--ev-ink)]" aria-hidden />
           <span>
             لطفاً جهت حفظ نظم، حداکثر تا{" "}
-            <b className="font-bold whitespace-nowrap text-[var(--ev-gold-ink)]">
+            <b className="whitespace-nowrap font-bold text-[var(--ev-gold-ink)]">
               ساعت {arrivalLabel}
-            </b> در محل سالن
-            حضور داشته باشید.
+            </b>{" "}
+            در محل سالن حضور داشته باشید.
           </span>
         </p>
       )}
-
-      <PrimaryButtonLink
-        href="/"
-        trailingIcon={<ArrowLeft className="size-6" aria-hidden />}
-        className="mt-6"
-      >
-        بازگشت به خانه
-      </PrimaryButtonLink>
     </div>
   );
 }
