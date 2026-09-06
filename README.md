@@ -170,6 +170,7 @@ state instead of missing data, and round assignments stay hidden until
 src/
   app/
     (site)/          public: home, how-it-works, events, stories, about, privacy, login
+    (event)/         the registration stage: /events/[slug]/register, no site chrome
     app/             authenticated: dashboard, onboarding, profile, matches,
                      opportunities, events, connections, notifications, settings
     globals.css      design tokens — the single source of colour, type and motion
@@ -179,6 +180,8 @@ src/
                      ReadinessMeter, SectionHeader
     domain/          MatchCard, WhyThisMatch, ProvenanceMark, OpportunityCard,
                      EventCard, ConnectionCard, NextActionCard, OnboardingFlow
+    registration/    the event registration stage — background, header, banner,
+                     panel (form/loading/error/success), info bar, CTA, fields
     layout/          site header/footer, app shell, logo
     marketing/       homepage sections, FAQ, event CTA, story card
   content/           Persian copy, seed taxonomy, and the empty proof file
@@ -189,6 +192,59 @@ Presentation, business rules and data access are separated: `lib/` holds no
 JSX, `components/` holds no fetch calls, and `content/` holds no logic.
 
 ---
+
+## The registration stage
+
+`/events/[slug]/register` is the one screen that drops the site chrome: a
+darkened auditorium, a lit white card, and a single action. It lives in its own
+route group (`app/(event)/`) because the marketing shell is not a layout it
+wants.
+
+**Two screens, one component.** The form and the confirmation are two branches
+of `RegistrationPanel`, which holds the only state machine in the flow:
+
+```
+form → (validation) → form            invalid input never leaves the client
+form → submitting → success           a receipt came back
+form → submitting → error → form      the submission failed; nothing is lost
+```
+
+The green check exists only inside the success branch. There is no prop that
+renders it on a form that has not been submitted, and a failed request renders
+an error message rather than a confirmation.
+
+**Everything on the confirmation is server truth.** The name, the ticket count
+and the door time come from the `EventRegistrationReceipt` the API returned —
+not from the form the member just filled in — so the screen cannot claim a
+registration the backend did not make.
+
+**The API call is the real one.** `registerForEvent` was added to `ManjaniqApi`
+and maps onto `POST /events/{slug}/registrations` with
+`{ fullName, phone, quantity }`, returning the receipt. The sample adapter
+answers it with a 900ms delay so the loading state is exercisable offline; that
+path only runs when the app is explicitly on sample data, which the shell
+already labels. Status codes are translated into Persian a member can act on
+(409 → «ظرفیت همین حالا تکمیل شد»), never shown raw.
+
+**The stage has its own tokens.** `.event-stage` in `globals.css` carries the
+navy/white/green/gold set. Nothing outside that class is affected, so the
+product's paper-and-evergreen palette is untouched. Two values deliberately
+depart from the artwork, both for contrast: the CTA green darkens through its
+gradient (white on flat `#00c83b` measures 2.3:1), and gold has a second,
+darker value (`--ev-gold-ink`) for the places gold sets text on white.
+
+**Event data drives all of it.** Title, edition marker, banner, backdrop,
+price, date, venue, start time and arrival deadline come from `EventDetail`;
+`toRegistrationEvent` formats them once on the server. Anything the organiser
+has not published — a banner, a price, a door time — is omitted rather than
+invented. Event clock labels are pinned to `Asia/Tehran` (`faEventTime`,
+`faEventDate`): a door time has to mean 9:15 at the venue, not 9:15 wherever
+the member happens to be.
+
+**No auditorium photograph ships with this repo.** The background is composed
+in CSS — navy ground, lighting rig, centre glow, vignette — and swaps for a
+real image the moment `event.coverUrl` is set. Nothing about the interface is
+baked into it.
 
 ## Persian and RTL
 
@@ -218,7 +274,12 @@ Targeting WCAG AA, verified in a browser rather than asserted:
   the trigger. The settings switch is a real checkbox styled by its label.
 - Every input is labelled through `Field`, which wires `aria-describedby` for
   hints and errors.
-- `prefers-reduced-motion` disables all animation.
+- `prefers-reduced-motion` disables all animation. On the registration stage
+  the success check additionally arrives already drawn and its halo is not
+  rendered at all.
+- The registration panel announces submitting / failed / confirmed through one
+  `role="status"` region, and moves focus to the confirmation heading when the
+  card swaps without a navigation.
 
 Checked at 390 / 768 / 1024 / 1440 with no horizontal overflow on any route.
 

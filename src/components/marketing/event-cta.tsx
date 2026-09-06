@@ -42,24 +42,22 @@ export function EventRegistrationCta({
       )}
 
       {open ? (
-        registrationUrl ? (
-          <ButtonLink
-            href={registrationUrl}
-            size="lg"
-            block
-            onClick={() => track({ name: "registration_started", eventSlug: slug })}
-          >
-            درخواست شرکت
-          </ButtonLink>
-        ) : (
-          <Button
-            size="lg"
-            block
-            onClick={() => track({ name: "registration_started", eventSlug: slug })}
-          >
-            درخواست شرکت
-          </Button>
-        )
+        /* An external destination still wins when the event declares one;
+           otherwise registration happens in-product on the event stage. The
+           handoff is tracked here only in the external case — the in-product
+           panel records the funnel start itself when it mounts. */
+        <ButtonLink
+          href={registrationUrl ?? `/events/${slug}/register`}
+          size="lg"
+          block
+          onClick={
+            registrationUrl
+              ? () => track({ name: "registration_started", eventSlug: slug })
+              : undefined
+          }
+        >
+          درخواست شرکت
+        </ButtonLink>
       ) : (
         <Button size="lg" block disabled>
           {state === "sold_out" ? "ظرفیت تکمیل است" : "ثبت‌نام هنوز باز نشده"}

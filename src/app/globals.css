@@ -419,3 +419,250 @@
     display: none;
   }
 }
+
+/* ============================================================================
+   EVENT STAGE — scoped theme for the event registration flow
+   ----------------------------------------------------------------------------
+   The registration screen is the one surface that is not printed-paper: it is
+   a darkened auditorium with a single lit card in the middle of it. Rather
+   than bend the product palette towards navy — which would drag every other
+   page with it — the stage carries its own token set, scoped to `.event-stage`.
+   Nothing outside that class is affected, and the values below are the only
+   place the stage's colour lives.
+
+   Two deliberate departures from the reference artwork:
+
+   1. The CTA green is darkened through its gradient (#00c83b → #00842a). White
+      on flat #00c83b measures 2.3:1 and fails at any size; the gradient the
+      label actually sits on measures above 3:1 for large bold text.
+   2. Gold has two values. `--ev-gold` is the artwork gold, used for fills and
+      for text on the dark ground. `--ev-gold-ink` is a darkened gold used
+      wherever gold text sits on the white card, where the artwork value would
+      measure 2.1:1.
+   ========================================================================== */
+
+.event-stage {
+  /* --- Ground -------------------------------------------------------- */
+  --ev-ground: #080a22;
+  --ev-ground-deep: #03040f;
+  --ev-stage-blue: #2743b8;
+  --ev-stage-violet: #5a37a8;
+
+  /* --- Card ---------------------------------------------------------- */
+  --ev-card: #ffffff;
+  --ev-card-soft: #f2f3f6;
+  --ev-ink: #080d1d;
+  --ev-muted: #606574;
+  --ev-line: #d4d6dc;
+
+  /* --- On the dark ground -------------------------------------------- */
+  --ev-on-dark: #f4f5fb;
+  --ev-on-dark-muted: #bcc0d8;
+  --ev-glass: rgb(10 12 34 / 0.55);
+  --ev-glass-line: rgb(255 255 255 / 0.16);
+
+  /* --- Accents ------------------------------------------------------- */
+  --ev-gold: #d6a321;
+  --ev-gold-ink: #9a6c05;
+  --ev-green: #00c83b;
+  --ev-green-mid: #00a636;
+  --ev-green-deep: #00842a;
+  --ev-danger: #b3261e;
+  --ev-danger-soft: #fdf0ef;
+
+  /* --- Shape --------------------------------------------------------- */
+  --ev-radius-card: 1.5rem;
+  --ev-radius-field: 0.875rem;
+  --ev-radius-pill: 999px;
+  --ev-pad-card: clamp(1.25rem, 0.85rem + 2vw, 2.25rem);
+
+  /* --- Elevation ----------------------------------------------------- */
+  --ev-shadow-card: 0 2px 6px rgb(3 4 15 / 0.18), 0 30px 70px -18px rgb(3 4 15 / 0.65);
+  --ev-shadow-glass: 0 1px 2px rgb(3 4 15 / 0.4);
+  --ev-shadow-cta: inset 0 1px 0 rgb(255 255 255 / 0.45), inset 0 -2px 0 rgb(0 0 0 / 0.2),
+    0 1px 2px rgb(3 4 15 / 0.35), 0 14px 30px -12px rgb(0 140 41 / 0.8);
+}
+
+@layer components {
+  /* Translucent dark surface — the banner plate and the information bar. */
+  .ev-glass {
+    background-color: var(--ev-glass);
+    border: 1px solid var(--ev-glass-line);
+    box-shadow: var(--ev-shadow-glass);
+  }
+  @supports (backdrop-filter: blur(2px)) {
+    .ev-glass {
+      backdrop-filter: blur(12px) saturate(1.1);
+    }
+  }
+
+  /* Form control on the white card. */
+  .ev-field {
+    inline-size: 100%;
+    block-size: 3.25rem;
+    padding-inline: 0.875rem;
+    border-radius: var(--ev-radius-field);
+    border: 1px solid var(--ev-line);
+    background-color: var(--ev-card-soft);
+    color: var(--ev-ink);
+    font-size: 1rem;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+  .ev-field::placeholder {
+    color: var(--ev-muted);
+    opacity: 0.75;
+  }
+  .ev-field:hover:not(:disabled) {
+    border-color: #b6b9c4;
+  }
+  .ev-field:focus {
+    outline: none;
+    background-color: var(--ev-card);
+    border-color: var(--ev-green-mid);
+    box-shadow: 0 0 0 3px rgb(0 166 54 / 0.18);
+  }
+  .ev-field[aria-invalid="true"] {
+    border-color: var(--ev-danger);
+    background-color: var(--ev-danger-soft);
+  }
+  .ev-field[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgb(179 38 30 / 0.18);
+  }
+  .ev-field:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* The primary registration action. */
+  .ev-cta {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    inline-size: 100%;
+    min-block-size: 3.5rem;
+    padding-inline: 1.5rem;
+    border-radius: var(--ev-radius-pill);
+    background-image: linear-gradient(
+      180deg,
+      var(--ev-green) 0%,
+      var(--ev-green-mid) 46%,
+      var(--ev-green-deep) 100%
+    );
+    color: #fff;
+    font-family: var(--font-display), var(--font-vazirmatn), sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: var(--ev-shadow-cta);
+    transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+  }
+  /* Highlight along the top edge — the dimensional read of the reference. */
+  .ev-cta::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 3px;
+    inset-inline: 12px;
+    block-size: 42%;
+    border-radius: var(--ev-radius-pill);
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.3), transparent);
+    pointer-events: none;
+  }
+  .ev-cta:hover:not(:disabled) {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+  }
+  .ev-cta:active:not(:disabled) {
+    transform: translateY(1px) scale(0.995);
+    filter: brightness(0.97);
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.28), 0 4px 12px -6px rgb(0 140 41 / 0.7);
+  }
+  .ev-cta:disabled {
+    filter: saturate(0.5) brightness(0.92);
+    cursor: not-allowed;
+  }
+  /* The button sits on the white card, so a white ring would be invisible.
+     The dark green reads at 4.3:1 against the card it is separated from the
+     button by. */
+  .ev-cta:focus-visible {
+    outline: 3px solid var(--ev-green-deep);
+    outline-offset: 3px;
+  }
+
+  /* Focus ring for controls sitting directly on the dark ground. */
+  .ev-on-dark-focus:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+}
+
+/* --- Stage motion. Entrances only; nothing here loops. ------------------- */
+
+@keyframes ev-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes ev-halo {
+  from {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+@keyframes ev-draw-check {
+  from {
+    stroke-dashoffset: 40;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes ev-state-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .animate-ev-pop {
+    animation: ev-pop 300ms cubic-bezier(0.22, 1.1, 0.36, 1) both;
+  }
+  .animate-ev-halo {
+    animation: ev-halo 900ms cubic-bezier(0.2, 0.7, 0.3, 1) 120ms both;
+  }
+  .animate-ev-draw-check {
+    /* Slightly longer than the tick's own path length (≈37), so the whole
+       stroke is inside one dash and the mark finishes drawn. */
+    stroke-dasharray: 40;
+    animation: ev-draw-check 320ms cubic-bezier(0.65, 0, 0.35, 1) 140ms both;
+  }
+  .animate-ev-state-in {
+    animation: ev-state-in 260ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The global reduce block already collapses durations; the check additionally
+     has to arrive drawn rather than as an invisible dashed path. */
+  .animate-ev-draw-check {
+    stroke-dasharray: none;
+  }
+  .animate-ev-halo {
+    display: none;
+  }
+}

@@ -1,9 +1,11 @@
-import type { ManjaniqApi, MatchFilter } from "./client";
+import { ApiRequestError, type ManjaniqApi, type MatchFilter } from "./client";
 import type {
   AppNotification,
   Connection,
   EventDetail,
   EventReadiness,
+  EventRegistrationReceipt,
+  EventRegistrationRequest,
   Match,
   Member,
   NextAction,
@@ -300,6 +302,7 @@ const SAMPLE_EVENT: EventDetail = {
   id: "e1",
   slug: "forsat-amaliat-esfand",
   title: "رویداد فرصت‌های عملیات",
+  edition: "۰۳",
   tagline: "چهل نفر، انتخاب‌شده بر اساس نیاز و توانمندی، در یک بعدازظهر.",
   startsAt: iso(21),
   endsAt: iso(21, 3.5),
@@ -344,6 +347,8 @@ const SAMPLE_EVENT: EventDetail = {
   ],
   priceIrr: 2_400_000,
   registrationUrl: null,
+  /** Doors 45 minutes before the first round, so the rounds start on time. */
+  arrivalDeadline: iso(21, -0.75),
 };
 
 const SAMPLE_CONNECTIONS: readonly Connection[] = [
@@ -448,6 +453,26 @@ export function createSampleApi(): ManjaniqApi {
     listEvents: async () => [SAMPLE_EVENT],
     getEvent: async (slug: string) => (slug === SAMPLE_EVENT.slug ? SAMPLE_EVENT : null),
     getEventReadiness: async () => SAMPLE_EVENT_READINESS,
+    /**
+     * Development-only registration. It writes nowhere and confirms every
+     * request against the one sample event; the latency exists so the loading
+     * state of the registration panel is exercisable without a backend. The
+     * shell's sample-data banner is what stops this being mistaken for a real
+     * confirmation.
+     */
+    registerForEvent: async (input: EventRegistrationRequest): Promise<EventRegistrationReceipt> => {
+      await new Promise((resolve) => setTimeout(resolve, 900));
+      if (input.eventSlug !== SAMPLE_EVENT.slug) throw new ApiRequestError(404, "/events");
+      return {
+        id: `sample-${Date.now()}`,
+        eventSlug: input.eventSlug,
+        fullName: input.fullName,
+        ticketQuantity: input.quantity,
+        status: "confirmed",
+        registeredAt: new Date().toISOString(),
+        ...(SAMPLE_EVENT.arrivalDeadline ? { arrivalDeadline: SAMPLE_EVENT.arrivalDeadline } : {}),
+      };
+    },
     listConnections: async () => SAMPLE_CONNECTIONS,
     listNotifications: async () => SAMPLE_NOTIFICATIONS,
   };

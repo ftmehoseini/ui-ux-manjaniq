@@ -1,9 +1,16 @@
-import { ApiNotConfiguredError, type ManjaniqApi, type MatchFilter } from "./client";
+import {
+  ApiNotConfiguredError,
+  ApiRequestError,
+  type ManjaniqApi,
+  type MatchFilter,
+} from "./client";
 import type {
   AppNotification,
   Connection,
   EventDetail,
   EventReadiness,
+  EventRegistrationReceipt,
+  EventRegistrationRequest,
   EventSummary,
   Match,
   Member,
@@ -26,7 +33,22 @@ export function createHttpApi(baseUrl: string | undefined): ManjaniqApi {
       cache: "no-store",
     });
     if (!response.ok) {
-      throw new Error(`Manjaniq API ${path} responded ${response.status}`);
+      throw new ApiRequestError(response.status, path);
+    }
+    return (await response.json()) as T;
+  }
+
+  async function post<T>(path: string, body: unknown): Promise<T> {
+    if (!baseUrl) throw new ApiNotConfiguredError();
+    const response = await fetch(`${baseUrl}${path}`, {
+      method: "POST",
+      headers: { accept: "application/json", "content-type": "application/json" },
+      credentials: "include",
+      cache: "no-store",
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      throw new ApiRequestError(response.status, path);
     }
     return (await response.json()) as T;
   }
@@ -48,6 +70,11 @@ export function createHttpApi(baseUrl: string | undefined): ManjaniqApi {
     listEvents: () => get<readonly EventSummary[]>("/events"),
     getEvent: (slug: string) => get<EventDetail | null>(`/events/${encodeURIComponent(slug)}`),
     getEventReadiness: () => get<EventReadiness | null>("/me/event-readiness"),
+    registerForEvent: ({ eventSlug, ...body }: EventRegistrationRequest) =>
+      post<EventRegistrationReceipt>(
+        `/events/${encodeURIComponent(eventSlug)}/registrations`,
+        body,
+      ),
     listConnections: () => get<readonly Connection[]>("/connections"),
     listNotifications: () => get<readonly AppNotification[]>("/notifications"),
   };
